@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+     <title>BitSpeed</title>
+  </head>
+  <body>
+	  <nav class="navbar fixed-top navbar-dark bg-dark">
+		  <a class="navbar-brand h1" href="#"><i class="fa fa-btc" aria-hidden="true"></i>
+		    BitSpeed</a>
+	  </nav>
+	  <div class="container">
+		  <br />
+		  <div class="row">
+			  <div class="col-sm-3">
+				  <h2>1 min table</h2>
+				  <div id="table1min">
+					    <v-client-table :data="tableData" :columns="columns" :options="options"></v-client-table>
+				  </div>
+			  </div>
+			  <div class="col-sm-3">
+				  <h2>3 min table</h2>
+				  <div id="table3min" class="col-sm">
+					    <v-client-table :data="tableData" :columns="columns" :options="options"></v-client-table>
+				  </div>
+			  </div>
+			  <div class="col-sm-3">
+				  <h2>5 min table</h2>
+				  <div id="table5min">
+					    <v-client-table :data="tableData" :columns="columns" :options="options"></v-client-table>
+				  </div>
+			  </div>
+			  <div class="col-sm-3">
+				  <h2>10 min table</h2>
+				  <div id="table10min" class="col-sm">
+					    <v-client-table :data="tableData" :columns="columns" :options="options"></v-client-table>
+				  </div>
+			  </div>
+		  </div>
+	  </div>
+ <script src="https://use.fontawesome.com/b1bc579075.js"></script>
+  <script src="./static/bundle.js"></script>
+  </body>
+</html>

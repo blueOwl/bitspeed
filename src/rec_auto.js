@@ -104,7 +104,6 @@ WebSocketClient.prototype.onclose = function(e){	console.log("WebSocketClient: c
 //auto clinet 
 
 var uri = 'wss://api.zb.com:9999/websocket';
-var req , wsc;
 
 MongoClient.connect(url, function(err, client) {
   assert.equal(null, err);
@@ -113,16 +112,19 @@ MongoClient.connect(url, function(err, client) {
   zb_markets = require('./zb_markets').zb_markets;
   for (i in zb_markets)check_collections(db, zb_markets[i]);
 
-(function fetch(idx) {
-	setTimeout (function () {
-
-		
-		req = JSON.stringify( { 'event':'addChannel', 'channel': zb_markets[idx].replace('_','') +'_ticker', })
-		wsc = new WebSocketClient();
+	function sleep (time) {
+		  return new Promise((resolve) => setTimeout(() => resolve(time), time));
+	}
+   for (var idx in zb_markets){
+	sleep(idx * 500).then((time) => {
+		var idx = time / 500;
+		var channel = zb_markets[idx].replace('_','') +'_ticker';
+		var req = JSON.stringify( { 'event':'addChannel', 'channel': channel })
+		var wsc = new WebSocketClient();
 		wsc.open(uri);
 		wsc.onopen = function(e){
 			console.log(zb_markets[idx], idx);
-			console.log("WebSocketClient connected zb " + zb_markets[idx],e);
+			console.log("WebSocketClient connected zb " + channel,e);
 			this.send(req);
 		}
 		wsc.onmessage = function(data,flags,number){
@@ -133,8 +135,8 @@ MongoClient.connect(url, function(err, client) {
 			ticker['date'] = parseInt(data['date']) * 0.001;
 			ticker['market'] = zb_markets[idx];
 			db.collection(zb_markets[idx]).insertOne(ticker, function(err, r) { });
-		}
-		if (--idx ) { fetch(idx);}
-	}, 200);
-})(zb_markets.length - 1);
+	 }
+   });
+   }
+
 });

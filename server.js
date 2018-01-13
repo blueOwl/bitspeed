@@ -44,8 +44,8 @@ MongoClient.connect(url, function(err, client) {
   assert.equal(null, err);
   console.log("Connected correctly to server");
   db = client.db(dbName);
-  app.listen(3000, function() {
-  	  console.log('listening on 3000')
+  app.listen(5000, function() {
+  	  console.log('listening on 5000')
   })
 });
 
@@ -83,7 +83,7 @@ function query_rate_for_m(db, m, time) {
 									  	      resolve({});
 									            } else {
 										      var pre = items[0];
-								                      if (! pre) { resolve({}); }
+								                      if (! pre) { resolve({}); } else {
 									              //console.log(items[0]);
 									              //console.log( { market: m, rate: (pre.last - cur.last) / cur.last, price: cur.last });
 									              resolve(
@@ -91,7 +91,7 @@ function query_rate_for_m(db, m, time) {
 											  rate: (pre.last - cur.last) / cur.last,
 											  price: cur.last
 											}
-										      );
+										      );}
 									            }          
 							        });
 					      });

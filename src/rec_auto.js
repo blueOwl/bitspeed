@@ -109,7 +109,7 @@ MongoClient.connect(url, function(err, client) {
   assert.equal(null, err);
   console.log("Connected correctly to server");
   const db = client.db(dbName);
-  zb_markets = require('./zb_markets').zb_markets;
+  const zb_markets = require('./zb_markets').zb_markets;
   for (i in zb_markets)check_collections(db, zb_markets[i]);
 
 	function sleep (time) {
@@ -129,10 +129,10 @@ MongoClient.connect(url, function(err, client) {
 		}
 		wsc.onmessage = function(data,flags,number){
 			//console.log(`WebSocketClient message #${number}: `,data);
-			ticker  = {};
-			data =  JSON.parse(data);
-			for (k in data['ticker']) ticker[k] = parseFloat(data['ticker'][k]);
-			ticker['date'] = parseInt(data['date']) * 0.001;
+			var ticker  = {};
+			var datajs =  JSON.parse(data);
+			for (k in datajs['ticker']) ticker[k] = parseFloat(datajs['ticker'][k]);
+			ticker['date'] = parseInt(datajs['date']) * 0.001;
 			ticker['market'] = zb_markets[idx];
 			db.collection(zb_markets[idx]).insertOne(ticker, function(err, r) { });
 	 }
